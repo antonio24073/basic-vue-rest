@@ -1,4 +1,5 @@
 <template>
+  <div>
   <b-form @submit="onSubmit" @reset="onReset" v-if="show">
     <b-form-group id="input-group-1" label="Título:" label-for="input-1">
       <b-form-input
@@ -33,7 +34,7 @@
     <b-form-group id="input-group-2" label="Quantidade:" label-for="input-2">
       <b-form-input
         id="input-2"
-        v-model="form.quantidade"
+        v-model="form.qtd"
         type="text"
         required
         placeholder="Quantidade"
@@ -43,6 +44,8 @@
     <b-button type="submit" variant="primary">Enviar</b-button>
     <b-button type="reset" variant="danger">Reset</b-button>
   </b-form>
+    {{this.form}}
+  </div>
 </template>
 
 <script>
@@ -50,19 +53,23 @@
     props: ['produto'],
     data() {
       return {
-        form: {
-          titulo: '',
-          decricao: '',
-          qtd: '',
-          preco: ''
-        },
+        form: 'aqui',
         show: true
       }
+    },
+    created(){
+      this.form = this.$props.produto;
+    },
+    updated(){
+      this.form = this.$props.produto;
     },
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        alert(JSON.stringify(this.form))
+        this.$http.put('http://localhost:9000/produtos', JSON.stringify(this.produto))
+          .then ((res)=> console.log (res.body))
+          .catch ((error)=> console.log(error));
+
       },
       onReset(evt) {
         evt.preventDefault()

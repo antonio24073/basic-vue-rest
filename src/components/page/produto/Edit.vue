@@ -12,14 +12,16 @@
     },
     data(){
       return{
-        produto: null,
+        produto: '',
         id: this.$route.params.id
       }
     },
     created() {
-      this.$http.get(`http://localhost:9000/produtos/${this.id}`) // this.$http depede de vue-resource
+      this.$http.get(`http://localhost:9000/produtos/${this.id}`) // this.$http depende de vue-resource
         .then(res => res.json())
         .then(produto => this.produto = produto);
+    },
+    methods: {
     }
   }
 </script>
